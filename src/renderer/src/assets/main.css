@@ -1,0 +1,6 @@
+body, html, #app, :root {
+    padding: 3px;
+    margin: 0;
+    overflow: hidden;
+    height: 100%
+}
