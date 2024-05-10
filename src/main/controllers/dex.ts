@@ -1,3 +1,5 @@
+import { sendToRenderer } from '../modules/communication/renderer'
+
 export default class Dex {
   private static okxConfig: Record<string, unknown[]> = {
     chain: [
@@ -25,7 +27,8 @@ export default class Dex {
     if (Dex.okxConfig.chain.indexOf(chain) === -1) {
       throw new Error('链不存在')
     }
-    console.log('调用成功', chain, fromToken, toToken)
+    sendToRenderer(`执行okxDex兑换,链: ${chain}, 来源: ${fromToken}, 目标: ${toToken}`)
+
     return 'success'
   }
 }

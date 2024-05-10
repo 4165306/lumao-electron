@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted, defineEmits } from 'vue'
 import DexConstant from './../constant/DexConstant'
 import Token from './../constant/Token'
+
+onMounted(async () => {
+  browsers.value = await window.api.network.bit.lst()
+})
 
 const taskConfigForm = reactive({
   type: 'dex',
@@ -24,6 +28,10 @@ const onDAppSelect = (value: string) => {
 }
 
 const browsers = ref()
+const selectedBrowsers = ref([])
+const handleSelectionChange = (val) => {
+    selectedBrowsers.value = val
+}
 
 /**
  * <el-table-column prop="id" label="优先级" />
@@ -33,6 +41,7 @@ const browsers = ref()
   <el-table-column prop="toToken" label="到币" />
  */
 const tasks = ref<Record<string, unknown>[]>([])
+const emits = defineEmits(['onAdd'])
 const addTask = () => {
   const task = {
     id: tasks.value.length,
@@ -45,11 +54,25 @@ const addTask = () => {
     toToken: taskConfigForm.toToken
   }
   tasks.value.push(task)
+  if (selectedBrowsers.value.length < 1) {
+    return 
+  }
+  for (let i = 0; i < selectedBrowsers.value.length; i++) {
+    emits(
+      'onAdd',
+      selectedBrowsers.value[i].id,
+      taskConfigForm.DApp,
+      taskConfigForm.fromChain,
+      taskConfigForm.toChain,
+      taskConfigForm.fromToken,
+      taskConfigForm.toToken
+    )
+  }
   // emits
 }
 </script>
 <template>
-  <el-card header="任务配置">
+  <el-card header="任务配置" style="height: 100%">
     <el-row :gutter="10" justify="space-between">
       <el-col :span="8">
         <el-form :model="taskConfigForm" label-width="auto">
@@ -133,11 +156,13 @@ const addTask = () => {
       </el-col>
       <el-col :span="15">
         <el-table
+          ref="multipleTableRef"
           :data="browsers"
           :height="230"
           size="small"
           show-overflow-tooltip
           style="width: 100%"
+          @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="55" />
           <el-table-column prop="id" label="浏览器标识" />

@@ -1,34 +1,21 @@
-# electron
+# 撸猫脚本
 
-An Electron application with Vue and TypeScript
+### 使用`electron-vite`构建，特别鸣谢,链接: https://github.com/alex8088/electron-vite
 
-## Recommended IDE Setup
+# Project Setup
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
+## Install
 
-## Project Setup
+`pnpm install`
 
-### Install
+## Dev
 
-```bash
-$ pnpm install
-```
+`pnpm run dev`
 
-### Development
+## build
 
-```bash
-$ pnpm dev
-```
+`pnpm run build:win`
 
-### Build
+`pnpm run build:mac`
 
-```bash
-# For windows
-$ pnpm build:win
-
-# For macOS
-$ pnpm build:mac
-
-# For Linux
-$ pnpm build:linux
-```
+`pnpm run build:linux`
