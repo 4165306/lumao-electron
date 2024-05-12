@@ -30,7 +30,8 @@ const onDAppSelect = (value: string) => {
 }
 
 const browsers = ref()
-const selectedBrowsers = ref([])
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const selectedBrowsers = ref<any[]>([])
 const handleSelectionChange = (val) => {
   selectedBrowsers.value = val
 }
@@ -43,7 +44,7 @@ const handleSelectionChange = (val) => {
   <el-table-column prop="toToken" label="到币" />
  */
 const tasks = ref<Record<string, unknown>[]>([])
-const emits = defineEmits(['onAdd'])
+const emits = defineEmits(['onAdd', 'onRandom'])
 const addTask = () => {
   const task = {
     id: tasks.value.length,
@@ -72,6 +73,7 @@ const addTask = () => {
   }
   // emits
 }
+
 </script>
 <template>
   <el-card header="任务配置" style="height: 100%">
@@ -159,7 +161,7 @@ const addTask = () => {
       <el-col :span="15">
         <el-radio-group v-model="browserType" class="ml-4">
           <el-radio value="bit">比特浏览器</el-radio>
-          <el-radio value="ads" >AdsPower</el-radio>
+          <el-radio value="ads">AdsPower</el-radio>
           <el-radio value="self">AdsPower破解版</el-radio>
         </el-radio-group>
         <el-table
@@ -179,9 +181,8 @@ const addTask = () => {
         </el-table>
       </el-col>
       <el-col>
-        <div style="padding: 10px 0">
+        <div style="padding: 10px 0; display: flex">
           <el-button type="danger" @click="addTask">添加任务</el-button>
-          <el-button type="primary">完全随机</el-button>
         </div>
       </el-col>
     </el-row>

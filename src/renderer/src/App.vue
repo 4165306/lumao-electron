@@ -44,6 +44,11 @@ const onAddTask = (
   console.log(t)
   tasks.value.push(t)
 }
+
+const TaskConfigRef = ref()
+const genRandomTask = (size: number) => {
+  TaskConfigRef.value.genRandomTask(size)
+}
 const runTask = () => {
   const taskQueue: TaskQueueInterface[] = tasks.value.map((item: TaskModelInterface) => {
     return {
@@ -62,10 +67,10 @@ const runTask = () => {
 <template>
   <div style="position: relative; width: 100%; height: 100%">
     <div style="position: absolute; top: 0; left: 0; width: 100%; height: 50%">
-      <taskConfig @on-add="onAddTask" />
+      <taskConfig @on-add="onAddTask" ref="TaskConfigRef" />
     </div>
     <div style="position: absolute; bottom: 2%; left: 0; width: 59%; height: 47%">
-      <TaskStep v-model:value="tasks" @on-start="runTask" />
+      <TaskStep v-model:value="tasks" @on-start="runTask" @on-random="genRandomTask" />
     </div>
     <div style="position: absolute; bottom: 2%; right: 0; width: 40%; height: 47%">
       <Logger />

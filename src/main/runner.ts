@@ -1,3 +1,4 @@
+import { resolve } from 'path'
 import { BrowserContext } from 'playwright-core'
 import { dexMapping } from './config/mapping'
 import { DAppInterface } from './modules/dapp/interfaces/dAppInterface'
@@ -45,10 +46,19 @@ export default class Runner {
       if (browserMapping.length > this.maxBrowser) {
         browserMapping.shift()
       }
+      await this.sleep(Math.floor(Math.random() * (10000 - 3000 + 1) + 3000))
     }
     // 恢复console.log
     console.log = oldLog
     return 'ok'
+  }
+
+  private static async sleep(ms: number) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(1)
+      }, ms)
+    })
   }
 
   private static async findBrowserContext(
