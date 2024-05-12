@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron/renderer'
 
-const tryIpcRendererFunc = (channel: string, ...args: string[]) => {
+const tryIpcRendererFunc = (channel: string, ...args: unknown[]) => {
   try {
     return ipcRenderer.invoke(channel, ...args)
   } catch (e: unknown) {
@@ -10,6 +10,7 @@ const tryIpcRendererFunc = (channel: string, ...args: string[]) => {
 
 export default {
   events: {
-    logger: (message: string) => tryIpcRendererFunc('events:logger', message)
+    logger: (message: string) => tryIpcRendererFunc('events:logger', message),
+    runTask: (message) => tryIpcRendererFunc('run:task', message)
   }
 }

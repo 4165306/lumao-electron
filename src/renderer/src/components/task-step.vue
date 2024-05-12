@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, defineEmits, defineProps } from 'vue'
+import { ref } from 'vue'
 const runMode = ref('1')
 
 const props = defineProps(['value'])
-const emits = defineEmits(['update:value'])
+const emits = defineEmits(['update:value', 'onStart'])
 const delStep = (stepId: number) => {
   const newData = (props.value as unknown[]).filter((_, i) => i !== stepId)
   emits('update:value', newData)
@@ -29,7 +29,7 @@ const flushData = () => {
             </el-radio-group>
           </div>
           <div style="margin-left: 10px">
-            <el-button type="primary" size="small">开始</el-button>
+            <el-button type="primary" size="small" @click="emits('onStart', runMode)">开始</el-button>
           </div>
         </div>
       </div>
