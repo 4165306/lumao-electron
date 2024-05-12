@@ -24,7 +24,7 @@ const onAddTask = (
   fromChain: string,
   toChain: string,
   fromToken: string,
-  toToken: string
+  toToken: string,
 ) => {
   const t: TaskModelInterface = {
     id: tasks.value.length,
@@ -41,6 +41,7 @@ const onAddTask = (
       to: toToken
     }
   }
+  console.log(t)
   tasks.value.push(t)
 }
 const runTask = () => {
@@ -54,7 +55,7 @@ const runTask = () => {
     }
   })
   console.log('开始运行任务', taskQueue)
-  window.api.sendEvents.events.runTask(JSON.parse(JSON.stringify(taskQueue)))
+  window.api.sendEvents.events.runTask(JSON.parse(JSON.stringify(taskQueue)), 'bit')
 }
 </script>
 

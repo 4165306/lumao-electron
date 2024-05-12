@@ -1,5 +1,5 @@
-import { chromium } from '@playwright/test'
-import type { BrowserContext } from '@playwright/test'
+import { chromium } from 'playwright-core'
+import type { BrowserContext } from 'playwright-core'
 class ContextManager {
   private contexts: { [url: string]: BrowserContext } = {}
 

@@ -1,10 +1,11 @@
-import { BrowserContext, Page } from '@playwright/test'
+import { BrowserContext, Page } from 'playwright-core'
 import { OkxWallet } from './../wallet/okxWallet'
 import { isGas } from './../helper/tokenHelper'
 import { PlaywrightHelper } from './../helper/playwrightHelper'
 import { sendToRenderer } from '../communication/renderer'
+import { DAppInterface } from './interfaces/dAppInterface'
 
-export class Pancake {
+export class Pancake implements DAppInterface {
   private readonly context: BrowserContext
   private static instance: Pancake
 
@@ -19,8 +20,9 @@ export class Pancake {
     return Pancake.instance
   }
 
-  public async run(chain: string, fromToken: string, toToken: string) {
+  public async run(fromChain: string, _toChain: string, fromToken: string, toToken: string) {
     const p = await this.context.newPage()
+    const chain = fromChain
     await p.goto('https://pancakeswap.finance/swap')
     this.context.on('page', () => {
       OkxWallet.getInstance(this.context).confirm()

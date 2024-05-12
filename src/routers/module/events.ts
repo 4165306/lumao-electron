@@ -11,6 +11,6 @@ const tryIpcRendererFunc = (channel: string, ...args: unknown[]) => {
 export default {
   events: {
     logger: (message: string) => tryIpcRendererFunc('events:logger', message),
-    runTask: (message) => tryIpcRendererFunc('run:task', message)
+    runTask: (taskQueue, type) => tryIpcRendererFunc('run:task', taskQueue, type)
   }
 }

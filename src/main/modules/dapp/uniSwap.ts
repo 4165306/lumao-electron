@@ -1,8 +1,9 @@
-import type { BrowserContext, Page } from '@playwright/test'
+import type { BrowserContext, Page } from 'playwright-core'
 import { OkxWallet } from './../wallet/okxWallet'
 import { isGas } from './../helper/tokenHelper'
+import { DAppInterface } from './interfaces/dAppInterface'
 
-export class UniSwap {
+export class UniSwap implements DAppInterface {
   private readonly context: BrowserContext
   private static instance: UniSwap
 
@@ -17,7 +18,8 @@ export class UniSwap {
     return UniSwap.instance
   }
 
-  public async run(chain: string, fromToken: string, toToken: string) {
+  public async run(fromChain: string, _toChain: string, fromToken: string, toToken: string) {
+    const chain = fromChain
     const p = await this.context.newPage()
     const okxWallet = OkxWallet.getInstance(this.context)
     let canNextStep = false

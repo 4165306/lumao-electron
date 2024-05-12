@@ -1,9 +1,10 @@
-import { BrowserContext, Locator, Page } from '@playwright/test'
+import { BrowserContext, Locator, Page } from 'playwright-core'
 import { OkxWallet } from './../wallet/okxWallet'
 import { isGas } from './../helper/tokenHelper'
 import { PlaywrightHelper } from './../helper/playwrightHelper'
+import { DAppInterface } from './interfaces/dAppInterface'
 
-export class Syncswap {
+export class Syncswap implements DAppInterface {
   private readonly context: BrowserContext
   private static instance: Syncswap
 
@@ -18,7 +19,8 @@ export class Syncswap {
     return Syncswap.instance
   }
 
-  public async run(chain: string, fromToken: string, toToken: string) {
+  public async run(fromChain: string, _toChain: string, fromToken: string, toToken: string) {
+    const chain = fromChain
     if (fromToken.toUpperCase() === 'ETH'.toUpperCase()) {
       fromToken = 'Ethereum'
     }

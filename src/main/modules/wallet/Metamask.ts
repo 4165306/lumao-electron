@@ -1,5 +1,5 @@
-import type { BrowserContext } from '@playwright/test'
-import { BitBrowser } from './../browser/bitBrowser'
+import type { BrowserContext } from 'playwright-core'
+import { BitBrowser } from '../browser/module/bitBrowser'
 
 export class Metamask {
   private readonly context: BrowserContext

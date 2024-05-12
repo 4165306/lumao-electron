@@ -1,4 +1,4 @@
-import { BrowserContext } from '@playwright/test'
+import { BrowserContext } from 'playwright-core'
 
 export class ChromePlugin {
   public static async disablePlugin(plugins: string[], ctx: BrowserContext) {

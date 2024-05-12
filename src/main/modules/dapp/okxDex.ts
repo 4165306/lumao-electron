@@ -1,8 +1,9 @@
-import { BrowserContext, Page } from '@playwright/test'
+import { BrowserContext, Page } from 'playwright-core'
 import { OkxWallet } from './../wallet/okxWallet'
 import { isGas } from './../helper/tokenHelper'
+import { DAppInterface } from './interfaces/dAppInterface'
 
-export class OkxDex {
+export class OkxDex implements DAppInterface {
   private readonly context: BrowserContext
   private static instance: OkxDex
 
@@ -17,7 +18,8 @@ export class OkxDex {
     return OkxDex.instance
   }
 
-  public async run(chain: string, fromToken: string, toToken: string) {
+  public async run(fromChain: string, _toChain: string, fromToken: string, toToken: string) {
+    const chain = fromChain
     const p = await this.context.newPage()
     await p.goto('https://www.okx.com/zh-hans/web3/dex-swap')
     await p.waitForTimeout(2000)

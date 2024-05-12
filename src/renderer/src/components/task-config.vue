@@ -3,6 +3,8 @@ import { ref, reactive, computed, onMounted, defineEmits } from 'vue'
 import DexConstant from './../constant/DexConstant'
 import Token from './../constant/Token'
 
+const browserType = ref<'bit' | 'ads' | 'self'>('bit')
+
 onMounted(async () => {
   browsers.value = await window.api.network.bit.lst()
 })
@@ -30,7 +32,7 @@ const onDAppSelect = (value: string) => {
 const browsers = ref()
 const selectedBrowsers = ref([])
 const handleSelectionChange = (val) => {
-    selectedBrowsers.value = val
+  selectedBrowsers.value = val
 }
 
 /**
@@ -55,12 +57,12 @@ const addTask = () => {
   }
   tasks.value.push(task)
   if (selectedBrowsers.value.length < 1) {
-    return 
+    return
   }
   for (let i = 0; i < selectedBrowsers.value.length; i++) {
     emits(
       'onAdd',
-      selectedBrowsers.value[i].id,
+      selectedBrowsers.value[i]._id,
       taskConfigForm.DApp,
       taskConfigForm.fromChain,
       taskConfigForm.toChain,
@@ -155,6 +157,11 @@ const addTask = () => {
         </el-form>
       </el-col>
       <el-col :span="15">
+        <el-radio-group v-model="browserType" class="ml-4">
+          <el-radio value="bit">比特浏览器</el-radio>
+          <el-radio value="ads" >AdsPower</el-radio>
+          <el-radio value="self">AdsPower破解版</el-radio>
+        </el-radio-group>
         <el-table
           ref="multipleTableRef"
           :data="browsers"
