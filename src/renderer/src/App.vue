@@ -1,79 +1,63 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import Logger from './components/logger.vue'
-import TaskConfig from './components/task-config.vue'
-import TaskStep from './components/task-step.vue'
-interface TaskModelInterface {
-  id: number
-  browser: { id: string }
-  DApp: string
-  chains: { from: string; to: string }
-  tokens: { from: string; to: string }
-}
-interface TaskQueueInterface {
-  chains: { from: string; to: string }
-  token: { from: string; to: string }
-  dApp: string
-  type: 'dex' | 'bridge'
-  browserUniqId: string
-}
-const tasks = ref<TaskModelInterface[]>([])
-const onAddTask = (
-  browserId: string,
-  DApp: string,
-  fromChain: string,
-  toChain: string,
-  fromToken: string,
-  toToken: string,
-) => {
-  const t: TaskModelInterface = {
-    id: tasks.value.length,
-    browser: {
-      id: browserId
-    },
-    DApp: DApp,
-    chains: {
-      from: fromChain,
-      to: toChain
-    },
-    tokens: {
-      from: fromToken,
-      to: toToken
-    }
-  }
-  console.log(t)
-  tasks.value.push(t)
-}
+import Logger from './components/log/logger.vue'
+import Config from './components/task/config.vue'
+import Runner from './runner'
 
-const TaskConfigRef = ref()
-const genRandomTask = (size: number) => {
-  TaskConfigRef.value.genRandomTask(size)
-}
-const runTask = () => {
-  const taskQueue: TaskQueueInterface[] = tasks.value.map((item: TaskModelInterface) => {
-    return {
-      browserUniqId: item.browser.id,
-      dApp: item.DApp,
-      type: item.chains.to === item.chains.from || item.chains.to === '' ? 'dex' : 'bridge',
-      chains: item.chains,
-      token: item.tokens
-    }
+const ConfigEl = ref()
+const stopTask = () => Runner.stop()
+const runTask = async () => {
+  const config = await ConfigEl.value.getConfig()
+  const browsers = await ConfigEl.value.getBrowserList()
+  Runner.main({
+    config,
+    browsers
   })
-  console.log('开始运行任务', taskQueue)
-  window.api.sendEvents.events.runTask(JSON.parse(JSON.stringify(taskQueue)), 'bit')
 }
 </script>
 
 <template>
-  <div style="position: relative; width: 100%; height: 100%">
-    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 50%">
-      <taskConfig @on-add="onAddTask" ref="TaskConfigRef" />
+  <div style="position: relative" class="match_parent">
+    <div style="position: absolute; top: 0; left: 0; width: 49%; height: 100%">
+      <el-card class="match_parent">
+        <template #header>
+          <div style="display: flex; justify-content: space-between">
+            <div>任务配置</div>
+            <div>
+              <el-button type="primary" @click="runTask">执行</el-button>
+              <el-button type="danger" @click="stopTask">停止</el-button>
+            </div>
+          </div>
+        </template>
+        <template #default>
+          <Config ref="ConfigEl" />
+        </template>
+      </el-card>
     </div>
-    <div style="position: absolute; bottom: 2%; left: 0; width: 59%; height: 47%">
-      <TaskStep v-model:value="tasks" @on-start="runTask" @on-random="genRandomTask" />
-    </div>
-    <div style="position: absolute; bottom: 2%; right: 0; width: 40%; height: 47%">
-      <Logger />
+    <div style="position: absolute; top: 0; right: 0; width: 50%; height: 100%">
+      <el-card class="match_parent" :body-style="{ overflowY: 'scroll', height: '83%' }">
+        <template #header>
+          <div style="display: flex; justify-content: space-between">
+            <div>日志</div>
+            <div>
+              <el-button type="primary">导出</el-button>
+              <el-button type="danger">清空</el-button>
+            </div>
+          </div>
+        </template>
+        <template #default>
+          <div>
+            <Logger />
+          </div>
+        </template>
+      </el-card>
     </div>
   </div>
 </template>
+
+<style scoped>
+.match_parent {
+  width: 100%;
+  height: 100%;
+}
+</style>

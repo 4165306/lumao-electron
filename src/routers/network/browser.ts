@@ -10,7 +10,7 @@ export default {
           id: item.seq,
           name: item.name,
           remark: item.remark,
-          lastRunTime: item.operTime
+          lastRunTime: new Date(item.operTime).getTime()
         }
       })
       return result

@@ -1,5 +1,6 @@
 import type { BrowserContext } from 'playwright-core'
 import { BitBrowser } from '../browser/module/bitBrowser'
+import { PlaywrightHelper } from '../helper/playwrightHelper'
 
 export class OkxWallet {
   private readonly context: BrowserContext
@@ -36,6 +37,11 @@ export class OkxWallet {
     await p.locator('#home-page-root-element-id').waitFor()
     await p.waitForTimeout(3000)
     await p.close()
+  }
+
+  async getWalletAddress(chain: string) {
+    // todo 获取钱包地址
+    await PlaywrightHelper.keepOnePage(this.context)
   }
 
   async confirm() {
