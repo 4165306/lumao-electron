@@ -12,28 +12,36 @@ export default class Arr {
   }
 
   public static randByField<T extends object>(arr: Array<T>, field: keyof T): number {
-    if (arr.length === 0) {
-      return 0
+    if (!Array.isArray(arr) || arr.length === 0) {
+      throw new Error('Input array is either not an array or is empty')
     }
-    // 定义当前基准点
-    const now = arr.reduce(
-      (max, obj) => (obj[field] > max ? obj[field] : max),
-      arr[0][field]
-    ) as number
-    console.log('基准点', now)
-    // 收集权重
-    const weights = arr.map((item: T) => Math.abs((item[field] as number) - now))
-    // 生成随机值用于加权
-    const totalWeight = weights.reduce((acc, val) => acc + val, 0)
-    let random = Math.random() * totalWeight
-    // 根据随机值选择一个返回
-    for (let i = 0; i < arr.length; i++) {
-      random -= weights[i]
-      if (random <= 0) {
-        return i
+
+    // 处理权重，将字符串转换为数字，并将 undefined 和 null 视为 0
+    const validItems = arr.map((item) => {
+      let weight = parseFloat(item[field] as any)
+      weight = isNaN(weight) || weight <= 0 ? 0 : weight
+      return { item, weight }
+    })
+
+    // 如果所有权重都为 0，则抛出错误
+    const totalWeight = validItems.reduce((sum, item) => sum + item.weight, 0)
+    if (totalWeight === 0) {
+      throw new Error('No valid items with a positive weight found in the array')
+    }
+
+    // 生成一个 0 到 totalWeight 之间的随机数
+    const randomWeight = Math.random() * totalWeight
+
+    // 根据随机数找到对应的 item
+    let cumulativeWeight = 0
+    for (let i = 0; i < validItems.length; i++) {
+      cumulativeWeight += validItems[i].weight
+      if (randomWeight < cumulativeWeight) {
+        return arr.indexOf(validItems[i].item)
       }
     }
-    // 如果出现计算错误，返回最后一个元素
-    return arr.length - 1
+
+    // 这种情况下，应该总是能够返回一个索引
+    return arr.indexOf(validItems[validItems.length - 1].item)
   }
 }

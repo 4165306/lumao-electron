@@ -10,11 +10,7 @@ const stopTask = () => Runner.stop()
 const runTask = async () => {
   const config = (await ConfigEl.value.getConfig()) as RunnerConfigType
   console.log(config)
-  const browsers = await ConfigEl.value.getBrowserList()
-  Runner.main({
-    config,
-    browsers
-  })
+  Runner.main(config)
 }
 </script>
 

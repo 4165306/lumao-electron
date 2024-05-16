@@ -4,8 +4,8 @@ import { BrowserType, SYS_Chains, SYS_Tokens } from '@renderer/interfaces/chain'
 import { RunnerConfigType } from '@renderer/interfaces/task'
 
 const form = reactive<RunnerConfigType>({
-  smartSwapGas: false,
   chains: [],
+  browserType: 'bit',
   networkTokenConfig: {
     Optimism: { tokens: [], weight: undefined },
     Arbitrum: { tokens: [], weight: undefined },
@@ -54,4 +54,17 @@ defineExpose({ getConfig, getBrowserList })
       </el-form-item>
     </el-form>
   </div>
-</template>
+</template>{
+  chains: [],
+  browserType: 'bit',
+  networkTokenConfig: {
+    Optimism: { tokens: [], weight: undefined },
+    Arbitrum: { tokens: [], weight: undefined },
+    'zkSync Era': { tokens: [], weight: undefined },
+    Polygon: { tokens: [], weight: undefined },
+    Linea: { tokens: [], weight: undefined },
+    Scroll: { tokens: [], weight: undefined },
+    Base: { tokens: [], weight: undefined }
+  },
+  smartSwapGas: false
+}
