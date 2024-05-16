@@ -1,9 +1,14 @@
-import { ChainNetworkType } from './chain'
+import { BrowserType, ChainNetworkType, TokenType } from './chain'
 
-export type TaskRunnerType = {
-  browserName: string
-  browserId: string
-  browserType: string
-  chain: ChainNetworkType
-  dex: string
+export type RunnerConfigType = {
+  chains: ChainNetworkType[]
+  browserType: BrowserType
+  networkTokenConfig: Record<
+    ChainNetworkType,
+    {
+      weight: number | undefined
+      tokens: TokenType[]
+    }
+  >
+  smartSwapGas: boolean
 }

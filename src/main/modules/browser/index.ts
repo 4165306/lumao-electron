@@ -8,8 +8,8 @@ export class BrowserHelper {
     browserUniqId: string
   ): Promise<BrowserContext> {
     console.log('浏览器信息', type, browserUniqId)
-    const { http } = await browserMapping[type](browserUniqId)
-    const ctx = await chromium.connectOverCDP(http.indexOf('http') === -1 ? `http://${http}` : http)
+    const { ws } = await browserMapping[type](browserUniqId)
+    const ctx = await chromium.connectOverCDP(ws.indexOf('ws') === -1 ? `ws://${ws}` : ws)
     return ctx.contexts()[0]
   }
 }

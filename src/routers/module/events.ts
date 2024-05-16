@@ -1,4 +1,5 @@
 import { ipcRenderer } from 'electron/renderer'
+import { BrowserType } from './../../renderer/src/interfaces/chain'
 
 const tryIpcRendererFunc = (channel: string, ...args: unknown[]) => {
   try {
@@ -11,6 +12,7 @@ const tryIpcRendererFunc = (channel: string, ...args: unknown[]) => {
 export default {
   events: {
     logger: (message: string) => tryIpcRendererFunc('events:logger', message),
-    runTask: (taskQueue, type) => tryIpcRendererFunc('run:task', taskQueue, type)
+    runTask: (browserType: BrowserType, browserId: string, task) =>
+      tryIpcRendererFunc('run:task', browserType, browserId, task)
   }
 }

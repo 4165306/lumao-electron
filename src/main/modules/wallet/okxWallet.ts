@@ -39,9 +39,44 @@ export class OkxWallet {
     await p.close()
   }
 
-  async getWalletAddress(chain: string) {
-    // todo 获取钱包地址
+  async getChainTokens(chain: string) {
     await PlaywrightHelper.keepOnePage(this.context)
+    const p = await this.context.newPage()
+    // 找到切换网络页面
+    await p.goto(
+      'chrome-extension://mcohilncbfahbmgdjkbpemcciiolgcge/popup.html#network-management?tab=0'
+    )
+    // 输入网络并切换
+    await p.getByPlaceholder('搜索网络名称').fill(chain)
+    await p.getByText(chain).click()
+    await p.waitForTimeout(1000)
+    // 重新进入首页
+    await p.goto('chrome-extension://mcohilncbfahbmgdjkbpemcciiolgcge/popup.html#home')
+    await p.waitForSelector('div._wallet-list__item_k23gm_1')
+    await p.waitForTimeout(1000)
+    // 收集Token
+    // 使用 evaluate 提取币种名称和币种值
+    const tokens = await p.evaluate(() => {
+      const tokenElements = document.querySelectorAll('div._wallet-list__item_k23gm_1')
+      const tokenData: Record<string, string>[] = []
+
+      tokenElements.forEach((el) => {
+        const nameElement = el.querySelector(
+          'div._wallet-list-token__title__wrap_k23gm_60 ._typography-text-md_1kso9_25'
+        ) as HTMLElement
+        const valueElement = el.querySelector(
+          'div[style*="max-width: calc(50% - 4px)"] ._typography-text-md_1kso9_25'
+        ) as HTMLElement
+
+        if (nameElement && valueElement) {
+          const name = nameElement.innerText
+          const value = valueElement.innerText
+          tokenData.push({ name, value })
+        }
+      })
+      return tokenData
+    })
+    return tokens
   }
 
   async confirm() {

@@ -3,11 +3,13 @@ import { ref } from 'vue'
 import Logger from './components/log/logger.vue'
 import Config from './components/task/config.vue'
 import Runner from './runner'
+import { RunnerConfigType } from './interfaces/task'
 
 const ConfigEl = ref()
 const stopTask = () => Runner.stop()
 const runTask = async () => {
-  const config = await ConfigEl.value.getConfig()
+  const config = (await ConfigEl.value.getConfig()) as RunnerConfigType
+  console.log(config)
   const browsers = await ConfigEl.value.getBrowserList()
   Runner.main({
     config,
@@ -19,7 +21,7 @@ const runTask = async () => {
 <template>
   <div style="position: relative" class="match_parent">
     <div style="position: absolute; top: 0; left: 0; width: 49%; height: 100%">
-      <el-card class="match_parent">
+      <el-card class="match_parent" :body-style="{ overflowY: 'scroll', height: '83%' }">
         <template #header>
           <div style="display: flex; justify-content: space-between">
             <div>任务配置</div>
