@@ -1,3 +1,4 @@
+import { browserOpenIdMapping } from '@renderer/config/mapping'
 import { BrowserType } from './../../interfaces/chain'
 
 export type BrowserInfo = {
@@ -45,7 +46,7 @@ export class BrowserCache {
     const now = new Date().getTime()
     const r: BrowserInfo[] = browsers.map((item) => {
       return {
-        open_id: item.id,
+        open_id: item[browserOpenIdMapping[type]],
         lastRunTime: now
       }
     })

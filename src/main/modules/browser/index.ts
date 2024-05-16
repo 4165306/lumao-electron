@@ -1,7 +1,7 @@
 import { browserMapping } from '../../config/mapping'
 import { chromium, BrowserContext } from 'playwright-core'
 
-export type BrowserType = 'bit' | 'ads' | 'self'
+export type BrowserType = 'bit' | 'ads' | 'ads-killer'
 export class BrowserHelper {
   public static async getBrowserContextByBrowserType(
     type: BrowserType,

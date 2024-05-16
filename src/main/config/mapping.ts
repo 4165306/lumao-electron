@@ -17,7 +17,7 @@ const dexMapping = {
 const browserMapping: Record<BrowserType, CallableFunction> = {
   bit: BitBrowser.openBrowser,
   ads: AdsBrowser.openBrowser,
-  self: () => undefined
+  'ads-killer': () => undefined
 }
 
 const chainTokenMapping: Record<ChainNetworkType, { wallet_name: string; sys_name: string }[]> = {

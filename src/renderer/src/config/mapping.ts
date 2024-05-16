@@ -1,4 +1,4 @@
-import { ChainNetworkType } from '@renderer/interfaces/chain'
+import { BrowserType, ChainNetworkType } from './../interfaces/chain'
 const chainDexMapping: {
   [key in ChainNetworkType]: { dex: string[] }
 } = {
@@ -19,4 +19,10 @@ const chainDexMapping: {
   Optimism: { dex: ['okxDex', 'pancake', 'uniSwap'] }
 }
 
-export { chainDexMapping }
+const browserOpenIdMapping: Record<BrowserType, string> = {
+  bit: '_id',
+  ads: 'id',
+  'ads-killer': 'id'
+}
+
+export { chainDexMapping, browserOpenIdMapping }

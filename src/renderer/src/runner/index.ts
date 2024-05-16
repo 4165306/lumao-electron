@@ -23,6 +23,12 @@ export default class Runner {
       if (new Date().getTime() < nextRunTime) {
         continue
       }
+      const minutes = 60 * 1000
+      nextRunTime =
+        new Date().getTime() +
+        Math.floor(Math.random() * (30 * minutes - 10 * minutes)) +
+        10 * minutes
+      window.api.sendEvents.events.logger('下次运行时间:' + new Date(nextRunTime).toLocaleString())
       let browserId: string
       try {
         browserId = (await BrowserCache.getBrowser(config.browserType)).open_id
@@ -47,8 +53,6 @@ export default class Runner {
       // 随机链 dex nextRunTime
       const chain = chains[id].chain
       const dex = Arr.randArray(chainDexMapping[chain].dex)
-      const minutes = 60 * 1000
-      nextRunTime = Math.floor(Math.random() * (30 * minutes - +10 * minutes)) + 10 * minutes
       // 执行
       window.api.sendEvents.events.runTask(config.browserType, browserId, {
         chain,

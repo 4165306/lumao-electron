@@ -39,7 +39,7 @@ export class OkxWallet {
     await p.close()
   }
 
-  async getChainTokens(chain: string) {
+  async getChainTokens(chain: string): Promise<{ name: string; value: string | number }[]> {
     await PlaywrightHelper.keepOnePage(this.context)
     const p = await this.context.newPage()
     // 找到切换网络页面

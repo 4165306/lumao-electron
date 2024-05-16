@@ -67,4 +67,17 @@ defineExpose({ getConfig, getBrowserList })
     Base: { tokens: [], weight: undefined }
   },
   smartSwapGas: false
+}{
+  chains: [],
+  browserType: 'bit',
+  networkTokenConfig: {
+    Optimism: { tokens: [], weight: undefined },
+    Arbitrum: { tokens: [], weight: undefined },
+    'zkSync Era': { tokens: [], weight: undefined },
+    Polygon: { tokens: [], weight: undefined },
+    Linea: { tokens: [], weight: undefined },
+    Scroll: { tokens: [], weight: undefined },
+    Base: { tokens: [], weight: undefined }
+  },
+  smartSwapGas: false
 }

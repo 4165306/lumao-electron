@@ -10,5 +10,4 @@ export type RunnerConfigType = {
       tokens: TokenType[]
     }
   >
-  smartSwapGas: boolean
 }
