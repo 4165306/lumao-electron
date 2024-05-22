@@ -27,9 +27,17 @@ export class Pancake implements DAppInterface {
     this.context.on('page', () => {
       OkxWallet.getInstance(this.context).confirm()
     })
-    const idx = await PlaywrightHelper.waitLocators(p, [
-      p.locator('#swap-page').getByRole('button', { name: 'Connect Wallet' }),
-      p.locator('div[title^="0x"]')
+    // const idx = await PlaywrightHelper.waitLocators(p, [
+    //   p.locator('#swap-page').getByRole('button', { name: 'Connect Wallet' }),
+    //   p.locator('div[title^="0x"]')
+    // ])
+    const idx = await Promise.race([
+      p
+        .locator('#swap-page')
+        .getByRole('button', { name: 'Connect Wallet' })
+        .click()
+        .then(() => 0),
+      p.waitForSelector('div[title^="0x"]').then(() => 1)
     ])
     console.log('判断idx', idx)
     if (idx === 0) {

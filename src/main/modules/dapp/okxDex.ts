@@ -47,7 +47,7 @@ export class OkxDex implements DAppInterface {
     await p.locator('div[data-monitor="chain"]').getByText('从').click()
     console.log('选择链')
     // 选择chain
-    await p.getByTestId('moreChains').click()
+    await p.getByText('30+').click()
     await p.getByPlaceholder('搜索', { exact: true }).fill(chain)
     await p.waitForTimeout(3000)
     await p.locator('.index_supported-chains__Na8BT > div').nth(0).click()
@@ -103,14 +103,14 @@ export class OkxDex implements DAppInterface {
   }
 
   private async selectToken(token: string, p: Page) {
-    await p.getByTestId('search').fill(token)
+    await p.locator('#scroll-box').getByPlaceholder('搜索币种名称、合约地址').fill(token)
     await p.waitForTimeout(3000)
-    await p.getByTestId('tokenItem-box').first().click()
+    await p.locator('.dex_okd6015-virtual-list-holder-inner > div').nth(0).click()
   }
 
   private async getBalance(p: Page) {
     const balanceText = await p
-      .locator('//*[@id="dex_right_part"]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div')
+      .locator('//*[@id="dex_right_part"]/div/div[2]/div[1]/div[1]/div[1]/div[2]/div/div')
       .innerText()
     return parseFloat(balanceText)
   }
