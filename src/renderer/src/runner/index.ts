@@ -56,7 +56,8 @@ export default class Runner {
       // 执行
       window.api.sendEvents.events.runTask(config.browserType, browserId, {
         chain,
-        dex
+        dex,
+        tokens: config.networkTokenConfig
       })
     }
     window.api.sendEvents.events.logger('停止成功')

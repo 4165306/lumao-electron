@@ -76,7 +76,11 @@ export class OkxWallet {
       })
       return tokenData
     })
-    return tokens
+    // 去除LXP币种
+    return tokens.filter((item) => item.name.indexOf('LXP') === -1) as {
+      name: string
+      value: string | number
+    }[]
   }
 
   async confirm() {
@@ -94,5 +98,8 @@ export class OkxWallet {
         return
       }
     }
+    // 自动打开确认页面进行处理
+    // 处理dapp-entry
+    // 处理connect-wallet
   }
 }

@@ -15,7 +15,7 @@ const chainDexMapping: {
     dex: ['okxDex', 'pancake', 'syncswap']
   },
   Base: { dex: ['okxDex', 'pancake', 'uniSwap'] },
-  Linea: { dex: ['okxDex', 'pancake', 'syncswap', 'uniSwap'] },
+  Linea: { dex: ['okxDex', 'pancake', 'syncswap'] },
   Optimism: { dex: ['okxDex', 'pancake', 'uniSwap'] }
 }
 

@@ -11,7 +11,8 @@ export function isGas(token: string): boolean {
     upperTokens === 'STRK' ||
     upperTokens === 'FTM' ||
     upperTokens === 'AVAX' ||
-    upperTokens === 'ETHEREUM'
+    upperTokens === 'ETHEREUM' ||
+    upperTokens.indexOf('_ETH') !== -1
   return r
 }
 

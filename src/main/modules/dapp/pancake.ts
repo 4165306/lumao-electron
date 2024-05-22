@@ -84,11 +84,6 @@ export class Pancake implements DAppInterface {
   }
 
   private async selectNetwork(chain: string, p: Page) {
-    await p
-      .locator(
-        '#__next > div.sc-jQXlCi.ddheVu._1a5xov70._1qhetbf15c._1qhetbf16k > div.sc-fcdPlE.gCfBQK > nav > div.sc-eDnVMP.sc-gKHVLF.crHFAV.cDDWNX > div:nth-child(5) > div > div.sc-eDnVMP.sc-gKHVLF.sc-fHKCsJ.gkVgsf.UlmxL.bPFNQT'
-      )
-      .hover()
     await p.waitForTimeout(1000)
     await p.getByRole('button', { name: chain }).click({ force: true })
   }
